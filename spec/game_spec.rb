@@ -7,10 +7,7 @@ describe Game do
       subject(:game) {Game.new}
 
       it "returns the player's symbol in that cell's index of the gameboard" do
-
-        
-        #This method will pass if new_game.selection(cell, player) returns the player symbol in that cell
-
+        expect(game.selection(41, 'x')).to eq('x')
       end
     end
   end
