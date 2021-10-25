@@ -7,12 +7,11 @@ class Game
   end
 
   def selection(cell_index, symbol)
-    if cell_index >= 41
+    if cell_index + 7 > 41 || @gameboard[cell_index + 7] == ' x' || @gameboard[cell_index + 7] == ' o'
       @gameboard[cell_index] = symbol
       @gameboard[cell_index]
     else
-      cell_index = cell_index + 7
-      selection(cell_index, symbol)
+      selection(cell_index + 7, symbol)
     end
   end
 end

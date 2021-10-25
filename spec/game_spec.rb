@@ -14,6 +14,20 @@ describe Game do
         game.selection(6, ' x')
         expect(game.gameboard[41]).to eq(' x')
       end
+
+      it "drops above the first taken cell if there is a cell in the way" do
+        game.selection(6, ' x')
+        game.selection(6, ' x')
+        expect(game.gameboard[34]).to eq(' x')
+      end
+
+      it "drops properly regardless of 'x' or 'o' being selection" do
+        game.selection(6, ' x')
+        game.selection(6, ' o')
+        game.selection(6, ' x')
+        expect(game.gameboard[27]).to eq(' x')
+      end
+
     end
   end
 end
