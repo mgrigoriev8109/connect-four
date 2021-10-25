@@ -1,6 +1,9 @@
 class Board
+
+attr_accessor :cells
+
   def initialize
-    @cells = ['01', '02', '03', '04', '05', '06', '07', '08', '09'].concat(('10'..'42').to_a)
+    @cells = ['00', '01', '02', '03', '04', '05', '06', '07', '08'].concat(('09'..'41').to_a)
   end
 
   # rubocop:disable Metrics/AbcSize
