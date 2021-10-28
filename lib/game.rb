@@ -15,13 +15,15 @@ class Game
     end
   end
 
-  def check_winner_horizontally(cell, neighbors = [])
+  def check_neighbors_right(starting_cell, current_cell = starting_cell, neighbors = [])
     if @gameboard[cell] != ' x'
       neighbors
+    elsif current_cell > starting_cell
+      neighbors.push(@gameboard[current_cell])
+      check_neighbors_right(starting_cell, starting_cell + 1, neighbors)
     else
-      neighbors.push(@gameboard[cell])
-      cell += 1
-      check_winner_horizontally(cell, neighbors)
+      neighbors.push(@gameboard[current_cell])
+      check_neighbors_right(starting_cell, starting_cell - 1, neighbors)
     end
     neighbors
     return true if neighbors.length >= 4
@@ -30,10 +32,13 @@ end
 
 new_game = Game.new
 new_game.gameboard
-new_game.selection(6, ' x')
 
-new_game.selection(6, ' x')
-new_game.selection(6, ' x')
 new_board = Board.new 
 new_board.cells = new_game.gameboard
+
+new_game.selection(0, ' x')
+new_game.selection(1, ' x')
+new_game.selection(2, ' x')
+new_game.selection(3, ' x')
+p new_game.check_neighbors_right(35)
 new_board.show
