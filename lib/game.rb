@@ -19,26 +19,22 @@ class Game
     end
   end
 
-  def check_winner(starting_cell, current_cell = starting_cell, neighbors = [])
-    left_right_border = @border_left.concat(@border_right)
+  def move_cell_right(current_cell)
+    current_cell += 1
+  end
+
+
+  def check_winner(starting_cell, move_cell_method = method(:move_cell_right), current_cell = starting_cell, neighbors = [])
     if @gameboard[current_cell] != ' x'
       neighbors
-    elsif current_cell == starting_cell
-      neighbors.push(@gameboard[current_cell])
-      check_winner(starting_cell, current_cell + 1, neighbors)
-      check_winner(starting_cell, current_cell - 1, neighbors)
-    elsif @gameboard[current_cell] == ' x' && left_right_border.any?(current_cell.to_s)
+    elsif @gameboard[current_cell] == ' x' && @border_right.any?(current_cell.to_s)
       neighbors.push(@gameboard[current_cell])
       neighbors
-    elsif current_cell > starting_cell
+    else
       neighbors.push(@gameboard[current_cell])
-      check_winner(starting_cell, current_cell + 1, neighbors)
-    elsif current_cell < starting_cell
-      neighbors.push(@gameboard[current_cell])
-      check_winner(starting_cell, current_cell - 1, neighbors)
+      check_winner(starting_cell, move_cell_method, move_cell_method.call(current_cell), neighbors)
     end
-    neighbors
-    return true if neighbors.length >= 4
+    neighbors.length - 1
   end
 end
 
@@ -49,9 +45,8 @@ new_board = Board.new
 new_board.cells = new_game.gameboard
 
 new_game.selection(0, ' x')
-new_game.selection(6, ' x')
-new_game.selection(6, ' x')
 new_game.selection(1, ' x')
 new_game.selection(2, ' x')
-p new_game.check_winner(37)
+new_game.selection(3, ' x')
+p new_game.check_winner(35)
 new_board.show
