@@ -36,20 +36,36 @@ describe Game do
     context 'When a player has four adjescent horizontal choices' do
       subject(:game) {described_class.new}  
 
-      it 'returns true when they are all to the right' do
+      it 'returns true when four connected to the right of starting cell' do
         game.selection(0, ' x')
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(3, ' x')
-        expect(game.check_winner_horizontally(35)).to be true
+        expect(game.check_winner(35)).to be true
       end
 
-      it 'returns true when they are all to the left' do
+      it 'returns true when four connected to the left of starting cell' do
         game.selection(0, ' x')
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(3, ' x')
-        expect(game.check_winner_horizontally(38)).to be true
+        expect(game.check_winner(38)).to be true
+      end
+
+      it 'returns true when four connected to the left and right of cell' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(3, ' x')
+        expect(game.check_winner(37)).to be true
+      end
+
+      it 'returns nil when only three are connected' do
+        game.selection(0, ' o')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(3, ' x')
+        expect(game.check_winner(38)).to be nil
       end
     end
   end

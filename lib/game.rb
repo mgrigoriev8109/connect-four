@@ -15,15 +15,19 @@ class Game
     end
   end
 
-  def check_neighbors_right(starting_cell, current_cell = starting_cell, neighbors = [])
-    if @gameboard[cell] != ' x'
+  def check_winner(starting_cell, current_cell = starting_cell, neighbors = [])
+    if @gameboard[current_cell] != ' x'
       neighbors
+    elsif current_cell == starting_cell
+      neighbors.push(@gameboard[current_cell])
+      check_winner(starting_cell, current_cell + 1, neighbors)
+      check_winner(starting_cell, current_cell - 1, neighbors)
     elsif current_cell > starting_cell
       neighbors.push(@gameboard[current_cell])
-      check_neighbors_right(starting_cell, starting_cell + 1, neighbors)
-    else
+      check_winner(starting_cell, current_cell + 1, neighbors)
+    elsif current_cell < starting_cell
       neighbors.push(@gameboard[current_cell])
-      check_neighbors_right(starting_cell, starting_cell - 1, neighbors)
+      check_winner(starting_cell, current_cell - 1, neighbors)
     end
     neighbors
     return true if neighbors.length >= 4
@@ -40,5 +44,5 @@ new_game.selection(0, ' x')
 new_game.selection(1, ' x')
 new_game.selection(2, ' x')
 new_game.selection(3, ' x')
-p new_game.check_neighbors_right(35)
+p new_game.check_winner(39)
 new_board.show
