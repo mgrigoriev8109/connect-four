@@ -19,23 +19,34 @@ class Game
     end
   end
 
-  def move_cell_right(current_cell)
-    current_cell += 1
-  end
-
-
-  def check_winner(starting_cell, move_cell_method = method(:move_cell_right), current_cell = starting_cell, neighbors = [])
+  def count_connected_cells(starting_cell, move_cell_method, border, current_cell = starting_cell, neighbors = [])
     if @gameboard[current_cell] != ' x'
       neighbors
-    elsif @gameboard[current_cell] == ' x' && @border_right.any?(current_cell.to_s)
+    elsif @gameboard[current_cell] == ' x' && border.any?(current_cell.to_s)
       neighbors.push(@gameboard[current_cell])
       neighbors
     else
       neighbors.push(@gameboard[current_cell])
-      check_winner(starting_cell, move_cell_method, move_cell_method.call(current_cell), neighbors)
+      count_connected_cells(starting_cell, move_cell_method, border, move_cell_method.call(current_cell), neighbors)
     end
     neighbors.length - 1
   end
+end
+
+def to_the_right(current_cell)
+  current_cell += 1
+end
+
+def to_the_left(current_cell)
+  current_cell -= 1
+end
+
+def to_the_top(current_cell)
+  current_cell -= 7
+end
+
+def to_the_bottom(current_cell)
+  current_cell += 7
 end
 
 new_game = Game.new
@@ -48,5 +59,5 @@ new_game.selection(0, ' x')
 new_game.selection(1, ' x')
 new_game.selection(2, ' x')
 new_game.selection(3, ' x')
-p new_game.check_winner(35)
+p new_game.count_connected_cells(35, method(:to_the_right), new_game.border_right)
 new_board.show
