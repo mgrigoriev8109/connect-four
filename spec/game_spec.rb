@@ -67,6 +67,15 @@ describe Game do
         game.selection(3, ' x')
         expect(game.check_winner(38)).to be nil
       end
+
+      it 'returns nil when only three are connected ' do
+        game.selection(0, ' x')
+        game.selection(6, ' x')
+        game.selection(6, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        expect(game.check_winner(37)).to be nil
+      end
     end
   end
 
