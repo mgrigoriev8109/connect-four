@@ -41,7 +41,7 @@ describe Game do
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(3, ' x')
-        expect(game.count_connected_cells(35, method(:to_the_right), game.border_right)).to eq(3)
+        expect(game.count_connected_cells(' x', 35, method(:to_the_right), game.border_right)).to eq(3)
       end
 
       it 'returns three when three connected to the left of starting cell' do
@@ -49,7 +49,7 @@ describe Game do
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(3, ' x')
-        expect(game.count_connected_cells(38, method(:to_the_left), game.border_right)).to eq(3)
+        expect(game.count_connected_cells(' x', 38, method(:to_the_left), game.border_right)).to eq(3)
       end
 
       it 'returns zero when zero connected to the left of starting cell' do
@@ -59,7 +59,7 @@ describe Game do
         game.selection(3, ' x')
         game.selection(6, ' x')
         game.selection(6, ' x')
-        expect(game.count_connected_cells(35, method(:to_the_left), game.border_left)).to eq(0)
+        expect(game.count_connected_cells(' x', 35, method(:to_the_left), game.border_left)).to eq(0)
       end
     end
   end
@@ -74,7 +74,7 @@ describe Game do
         game.selection(2, ' x')
         game.selection(0, ' x')
         game.selection(0, ' x')
-        expect(game.count_all_connected_cells(35)).to be false
+        expect(game.count_all_connected_cells(' x', 35)).to be false
       end
 
       it 'returns true when four are connected horizontally' do
@@ -84,7 +84,7 @@ describe Game do
         game.selection(0, ' x')
         game.selection(0, ' x')
         game.selection(0, ' x')
-        expect(game.count_all_connected_cells(35)).to be true
+        expect(game.count_all_connected_cells(' x', 35)).to be true
       end
 
       it 'returns true when four are connected diagonally' do
@@ -98,7 +98,7 @@ describe Game do
         game.selection(3, ' o')
         game.selection(3, ' o')
         game.selection(3, ' x')
-        expect(game.count_all_connected_cells(17)).to be true
+        expect(game.count_all_connected_cells(' x', 17)).to be true
       end
 
       it 'returns false when only three are connected diagonally' do
@@ -112,7 +112,7 @@ describe Game do
         game.selection(3, ' o')
         game.selection(3, ' o')
         game.selection(3, ' x')
-        expect(game.count_all_connected_cells(17)).to be true
+        expect(game.count_all_connected_cells(' x', 17)).to be true
       end
 
       it 'returns false when border might break function but only three connected' do
@@ -120,7 +120,27 @@ describe Game do
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(6, ' x')
-        expect(game.count_all_connected_cells(0)).to be false
+        expect(game.count_all_connected_cells(' x', 0)).to be false
+      end
+    end
+  end
+
+  describe '#play_turn' do
+    context 'when user inputs incorrect values followed by correct values' do
+      
+      subject(:game) {described_class.new}
+      let(:player) {instance_double(Player, name: 'Bob', symbol: ' x')}
+
+      before do
+        invalid_input = '42'
+        valid_input = '41'
+        allow(game).to receive(:gets).and_return(invalid_input, valid_input)
+      end
+
+      it 'selects the valid cell on the gameboard for the correct values' do
+        message = "It appears you did not enter a number between 0 and 41, try again!"
+        expect(game.play_turn).to receive(:puts).with(message).once
+        game.play_turn(player)
       end
     end
   end

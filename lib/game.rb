@@ -2,6 +2,7 @@ require_relative 'board'
 require_relative 'player'
 class Game 
   attr_accessor :gameboard, :player_one, :player_two
+  attr_reader :border_top, :border_right, :border_left, :border_bottom
  
   def initialize
     @gameboard = ['00', '01', '02', '03', '04', '05', '06', '07', '08'].concat(('09'..'41').to_a)
@@ -24,11 +25,14 @@ class Game
     puts "Thank you #{player_two.name}, your symbol will be O"
   end
 
-  def play_turn 
-    puts "#{@player_one.name}, please select the cell to drop your X."
-    selection(gets.chomp.to_i, ' x')
-    puts "#{@player_two.name}, please select the cell to drop your O."
-    selection(gets.chomp.to_i, ' o')
+  def play_turn(player)
+    loop do
+      puts "#{player.name}, please select the cell to drop your symbol #{player.symbol}."
+      player.selection = gets.chomp.to_i
+      break if (0..41).any?(player.selection)
+      puts "It appears you did not enter a number between 0 and 41, try again!"
+    end
+    selection(player.selection, player.symbol)
   end
 
   def selection(cell_index, symbol)
@@ -101,10 +105,9 @@ def to_the_bottom_right(current_cell)
   current_cell += 8
 end
 
-new_game = Game.new
-new_game.gameboard
-new_game.create_players
-new_board = Board.new 
-new_board.cells = new_game.gameboard
-new_game.play_turn
-new_board.show
+#new_game = Game.new
+#new_game.create_players
+#new_board = Board.new 
+#new_board.cells = new_game.gameboard
+#new_game.play_turn
+#new_board.show
