@@ -32,7 +32,7 @@ describe Game do
     end
   end
 
-  describe '#check_winner' do
+  describe '#count_connected_cells' do
     context 'When a player has four adjescent horizontal choices' do
       subject(:game) {described_class.new}  
 
@@ -41,7 +41,7 @@ describe Game do
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(3, ' x')
-        expect(game.check_winner(35)).to be true
+        expect(game.count_connected_cells(35, method(:to_the_right), game.border_right)).to eq(3)
       end
 
       it 'returns true when four connected to the left of starting cell' do
@@ -49,33 +49,9 @@ describe Game do
         game.selection(1, ' x')
         game.selection(2, ' x')
         game.selection(3, ' x')
-        expect(game.check_winner(38)).to be true
+        expect(game.count_connected_cells(38, method(:to_the_left), game.border_right)).to eq(3)
       end
 
-      it 'returns true when four connected to the left and right of cell' do
-        game.selection(0, ' x')
-        game.selection(1, ' x')
-        game.selection(2, ' x')
-        game.selection(3, ' x')
-        expect(game.check_winner(37)).to be true
-      end
-
-      it 'returns nil when only three are connected' do
-        game.selection(0, ' o')
-        game.selection(1, ' x')
-        game.selection(2, ' x')
-        game.selection(3, ' x')
-        expect(game.check_winner(38)).to be nil
-      end
-
-      it 'returns nil when only three are connected ' do
-        game.selection(0, ' x')
-        game.selection(6, ' x')
-        game.selection(6, ' x')
-        game.selection(1, ' x')
-        game.selection(2, ' x')
-        expect(game.check_winner(37)).to be nil
-      end
     end
   end
 
