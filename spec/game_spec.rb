@@ -36,7 +36,7 @@ describe Game do
     context 'When a player has four adjescent horizontal choices' do
       subject(:game) {described_class.new}  
 
-      it 'returns true when four connected to the right of starting cell' do
+      it 'returns three when three connected to the right of starting cell' do
         game.selection(0, ' x')
         game.selection(1, ' x')
         game.selection(2, ' x')
@@ -44,7 +44,7 @@ describe Game do
         expect(game.count_connected_cells(35, method(:to_the_right), game.border_right)).to eq(3)
       end
 
-      it 'returns true when four connected to the left of starting cell' do
+      it 'returns three when three connected to the left of starting cell' do
         game.selection(0, ' x')
         game.selection(1, ' x')
         game.selection(2, ' x')
@@ -52,7 +52,76 @@ describe Game do
         expect(game.count_connected_cells(38, method(:to_the_left), game.border_right)).to eq(3)
       end
 
+      it 'returns zero when zero connected to the left of starting cell' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(3, ' x')
+        game.selection(6, ' x')
+        game.selection(6, ' x')
+        expect(game.count_connected_cells(35, method(:to_the_left), game.border_left)).to eq(0)
+      end
     end
   end
 
+  describe '#count_all_connected_cells' do
+    context 'When a player is counting all connected cells' do
+      subject(:game) {described_class.new}  
+
+      it 'returns false when only three connected' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(0, ' x')
+        game.selection(0, ' x')
+        expect(game.count_all_connected_cells(35)).to be false
+      end
+
+      it 'returns true when four are connected horizontally' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(0, ' x')
+        game.selection(0, ' x')
+        game.selection(0, ' x')
+        expect(game.count_all_connected_cells(35)).to be true
+      end
+
+      it 'returns true when four are connected diagonally' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(2, ' x')
+        game.selection(2, ' x')
+        game.selection(3, ' o')
+        game.selection(3, ' o')
+        game.selection(3, ' o')
+        game.selection(3, ' x')
+        expect(game.count_all_connected_cells(17)).to be true
+      end
+
+      it 'returns false when only three are connected diagonally' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(2, ' x')
+        game.selection(2, ' x')
+        game.selection(3, ' o')
+        game.selection(3, ' o')
+        game.selection(3, ' o')
+        game.selection(3, ' x')
+        expect(game.count_all_connected_cells(17)).to be true
+      end
+
+      it 'returns false when border might break function but only three connected' do
+        game.selection(0, ' x')
+        game.selection(1, ' x')
+        game.selection(2, ' x')
+        game.selection(6, ' x')
+        expect(game.count_all_connected_cells(0)).to be false
+      end
+    end
+  end
 end
