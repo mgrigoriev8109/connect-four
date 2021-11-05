@@ -28,8 +28,8 @@ class Game
   def play_turn(player)
     loop do
       puts "#{player.name}, please select the cell to drop your symbol #{player.symbol}."
-      player.choice = gets.chomp
-      break if ('0'..'41').any?(player.choice)
+      player.choice = gets.chomp.to_i
+      break if (0..41).any?(player.choice)
       puts "It appears you did not enter a number between 0 and 41, try again!"
     end
     selection(player.choice, player.symbol)
@@ -109,5 +109,5 @@ end
 #new_game.create_players
 #new_board = Board.new 
 #new_board.cells = new_game.gameboard
-#new_game.play_turn
+#new_game.play_turn(new_game.player_one)
 #new_board.show

@@ -135,11 +135,13 @@ describe Game do
         invalid_input = '42'
         valid_input = '41'
         allow(game).to receive(:gets).and_return(invalid_input, valid_input)
+        allow(game).to receive(:selection)
       end
 
       it 'selects the valid cell on the gameboard for the correct values' do
-        expect(player).to receive(:choice).with(game).twice
         game.play_turn(player)
+        expect(player).to receive(:choice).with('42', '41')
+        #expect(game).to receive(:puts).with('42', '41').twice
       end
     end
   end
