@@ -28,11 +28,11 @@ class Game
   def play_turn(player)
     loop do
       puts "#{player.name}, please select the cell to drop your symbol #{player.symbol}."
-      player.selection = gets.chomp.to_i
-      break if (0..41).any?(player.selection)
+      player.choice = gets.chomp
+      break if ('0'..'41').any?(player.choice)
       puts "It appears you did not enter a number between 0 and 41, try again!"
     end
-    selection(player.selection, player.symbol)
+    selection(player.choice, player.symbol)
   end
 
   def selection(cell_index, symbol)

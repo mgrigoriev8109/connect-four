@@ -138,7 +138,7 @@ describe Game do
       end
 
       it 'selects the valid cell on the gameboard for the correct values' do
-        expect(player).to receive(:selection).with(game).twice
+        expect(player).to receive(:choice).with(game).twice
         game.play_turn(player)
       end
     end
