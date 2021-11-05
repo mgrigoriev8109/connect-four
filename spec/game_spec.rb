@@ -138,8 +138,7 @@ describe Game do
       end
 
       it 'selects the valid cell on the gameboard for the correct values' do
-        message = "It appears you did not enter a number between 0 and 41, try again!"
-        expect(game.play_turn).to receive(:puts).with(message).once
+        expect(player).to receive(:selection).with(game).twice
         game.play_turn(player)
       end
     end
