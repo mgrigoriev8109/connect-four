@@ -25,14 +25,13 @@ class Game
     puts "Thank you #{player_two.name}, your symbol will be O"
   end
 
-  def play_turn(player)
-    loop do
-      puts "#{player.name}, please select the cell to drop your symbol #{player.symbol}."
-      player.choice = gets.chomp.to_i
-      break if (0..41).any?(player.choice)
+  def verify_input
+    input = gets.chomp.to_i
+    until (0..41).any?(input)
       puts "It appears you did not enter a number between 0 and 41, try again!"
+      input = gets.chomp.to_i
     end
-    selection(player.choice, player.symbol)
+    input
   end
 
   def selection(cell_index, symbol)

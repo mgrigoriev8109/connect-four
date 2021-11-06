@@ -125,23 +125,19 @@ describe Game do
     end
   end
 
-  describe '#play_turn' do
+  describe '#get_input' do
     context 'when user inputs incorrect values followed by correct values' do
       
       subject(:game) {described_class.new}
-      let(:player) {instance_double(Player, name: 'Bob', symbol: ' x')}
-
       before do
         invalid_input = '42'
         valid_input = '41'
         allow(game).to receive(:gets).and_return(invalid_input, valid_input)
-        allow(game).to receive(:selection)
       end
 
       it 'selects the valid cell on the gameboard for the correct values' do
-        game.play_turn(player)
-        expect(player).to receive(:choice).with('42', '41')
-        #expect(game).to receive(:puts).with('42', '41').twice
+        expect(game.verify_input).to eq(41)
+        game.verify_input
       end
     end
   end
