@@ -103,10 +103,3 @@ end
 def to_the_bottom_right(current_cell)
   current_cell += 8
 end
-
-#new_game = Game.new
-#new_game.create_players
-#new_board = Board.new 
-#new_board.cells = new_game.gameboard
-#new_game.play_turn(new_game.player_one)
-#new_board.show
